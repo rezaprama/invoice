@@ -7,6 +7,7 @@ Date: 13 November 2026 (Asia/Jakarta). Scope: the production build of Invoice St
 - `npm run check`: PASS. Nine calculation/data tests; strict TypeScript check; Vite production build.
 - `npm run test:e2e`: PASS. Sixteen tests, eight scenarios on each of two viewport projects. Scenarios live in `tests/e2e/workflow.spec.ts` and `tests/e2e/edge-cases.spec.ts`.
 - `npm audit --omit=dev`: PASS. Zero reported production dependency vulnerabilities at verification time.
+- Production smoke: PASS. `https://rezaprama.github.io/invoice/` returned HTTP 200; an isolated Chrome context loaded the deployed assets and downloaded a PDF with zero page errors or failed HTTP responses.
 - PDF Inspector classified the 85-item test export as TextBased, six pages, no OCR needed. Independent PyMuPDF extraction found item 85 and the final note, with zero replacement characters. First and last page renders were visually inspected.
 - Width checks: 320, 375, 390, 768, 1024, 1280, 1440, and 1920 CSS pixels. Mobile preview was checked separately after switching tabs.
 - Axe checks: no violations for the tested WCAG A/AA tags in editor, preview, history, profiles, and backup, plus dark-mode editor. Automated checks do not constitute full accessibility certification.
