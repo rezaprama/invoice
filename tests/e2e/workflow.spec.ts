@@ -10,7 +10,9 @@ async function fillInvoice(page: Page) {
   await page.getByLabel('Jumlah', { exact: true }).first().fill('2,5');
   await page.getByLabel('Harga satuan (IDR)', { exact: true }).first().fill('100000');
 }
-test.beforeEach(async ({ page }) => { await page.goto('./'); });
+const pageErrors = new WeakMap<Page, string[]>();
+test.beforeEach(async ({ page }) => { const errors: string[] = []; pageErrors.set(page, errors); page.on('pageerror', error => errors.push(error.message)); await page.goto('./'); });
+test.afterEach(async ({ page }) => { expect(pageErrors.get(page)).toEqual([]); });
 
 test('item editing, duplication, ordering, delete and undo update totals', async ({ page }, info) => {
   await fillInvoice(page);
@@ -26,12 +28,18 @@ test('item editing, duplication, ordering, delete and undo update totals', async
   await expect(page.locator('.line-item')).toHaveCount(2);
   await page.getByRole('button', { name: 'Urungkan' }).click();
   await expect(page.locator('.line-item')).toHaveCount(3);
+  await page.getByRole('button', { name: 'Diskon', exact: true }).click();
   await page.getByLabel('Diskon', { exact: true }).fill('10');
   await page.getByLabel('Tarif pajak (%)', { exact: true }).fill('11');
+  await page.getByRole('button', { name: 'Biaya tambahan', exact: true }).click();
   await page.getByLabel('Biaya tambahan (IDR)', { exact: true }).fill('10000');
+  await page.getByRole('button', { name: 'Sudah dibayar', exact: true }).click();
   await page.getByLabel('Sudah dibayar (IDR)', { exact: true }).fill('50000');
-  if (info.project.name === 'mobile') await page.getByRole('button', { name: 'Pratinjau', exact: true }).click();
   await expect(page.locator('.paper-balance dd')).toContainText('309.650');
+  await page.getByRole('button', { name: 'Hapus biaya tambahan', exact: true }).click();
+  await expect(page.locator('.paper-balance dd')).toContainText('299.650');
+  await page.getByRole('button', { name: 'Hapus pembayaran sebagian', exact: true }).click();
+  await expect(page.locator('.paper-balance dd')).toContainText('349.650');
 });
 
 test('PDF is the only download; validation and PDF error can be retried', async ({ page }) => {
@@ -103,7 +111,6 @@ test('theme follows system changes and manual override; blue light/dark layouts 
   }
   await page.setViewportSize(info.project.name === 'mobile' ? { width: 390, height: 844 } : { width: 1440, height: 1000 });
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([]);
-  if (info.project.name === 'mobile') await page.getByRole('button', { name: 'Pratinjau', exact: true }).click();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()).violations).toEqual([]);
   await page.screenshot({ path: test.info().outputPath('light.png') });
@@ -123,6 +130,7 @@ test('templates, logo, currencies, payment and separate UI/document languages wo
   await expect(page.locator('.logo-upload img')).toHaveCount(0);
   await page.getByLabel('Mata uang', { exact: true }).selectOption('USD');
   for (const rate of await page.getByLabel('Harga satuan (USD)', { exact: true }).all()) await rate.fill('0');
+  await page.getByRole('button', { name: 'Diskon', exact: true }).click();
   await page.getByLabel('Jenis diskon', { exact: true }).selectOption('fixed');
   await page.getByLabel('Status', { exact: true }).selectOption('paid');
   await expect(page.getByLabel('Sudah dibayar (USD)', { exact: true })).toBeDisabled();
@@ -134,7 +142,6 @@ test('templates, logo, currencies, payment and separate UI/document languages wo
   await expect(page.locator('.paper-balance dt')).toHaveText('Amount due');
   await page.getByLabel('Bahasa', { exact: true }).selectOption('en');
   await expect(page.getByRole('heading', { name: 'Create an invoice' })).toBeVisible();
-  if (info.project.name === 'mobile') await page.getByRole('button', { name: 'Preview', exact: true }).click();
   await expect(page.locator('.paper-balance dd')).toContainText('$0.00');
 });
 
@@ -146,7 +153,7 @@ test('reset requires confirmation and discards form; empty items block PDF', asy
   await page.getByRole('button', { name: 'Mulai ulang', exact: true }).click();
   await page.getByRole('dialog').getByRole('button', { name: 'Mulai ulang', exact: true }).click();
   await expect(page.locator('#section-02').getByLabel('Nama / perusahaan')).toHaveValue('');
-  await page.getByRole('link', { name: 'Item', exact: true }).click();
+  await page.locator('#section-04').scrollIntoViewIfNeeded();
   await expect(page.getByRole('button', { name: 'Hapus item 1' })).toBeInViewport();
   await page.getByRole('button', { name: 'Hapus item 1' }).click();
   await expect(page.locator('.empty-items')).toBeVisible();
@@ -167,4 +174,33 @@ test('long invoice downloads as multipage text PDF entirely from the form', asyn
   const bytes = await readFile((await pdf.path())!);
   expect(bytes.subarray(0, 5).toString()).toBe('%PDF-');
   expect([...bytes.toString('latin1').matchAll(/\/Type \/Page\b/g)].length).toBeGreaterThan(2);
+});
+
+test('document itself is editable; caret, multiline resizing and currency focus stay usable', async ({ page }) => {
+  await expect(page.locator('.editor-pane')).toHaveCount(0);
+  await expect(page.locator('.editable-paper')).toHaveCount(1);
+  const title = page.getByLabel('Judul dokumen', { exact: true });
+  await title.fill('Invoice'); await title.press('Home'); await title.pressSequentially('Proyek ');
+  await expect(title).toHaveValue('Proyek Invoice');
+  await fillInvoice(page);
+  const description = page.getByLabel('Deskripsi', { exact: true });
+  const before = await description.evaluate(element => element.getBoundingClientRect().height);
+  await description.fill('Baris pertama\nBaris kedua\nBaris ketiga\nBaris keempat');
+  await description.press('End'); await description.pressSequentially(' tambahan');
+  await expect(description).toHaveValue('Baris pertama\nBaris kedua\nBaris ketiga\nBaris keempat tambahan');
+  expect(await description.evaluate(element => element.getBoundingClientRect().height)).toBeGreaterThan(before);
+  const rate = page.getByLabel('Harga satuan (IDR)', { exact: true });
+  await rate.fill('125000'); await rate.press('Tab');
+  await expect(rate).toHaveValue(/Rp\s*125\.000/);
+  await rate.focus(); await expect(rate).toHaveValue('125000');
+  await page.getByLabel('Jumlah', { exact: true }).fill('2');
+  await expect(page.locator('.paper-balance dd')).toContainText('250.000');
+  await page.getByRole('button', { name: 'Diskon', exact: true }).click();
+  await page.getByLabel('Diskon', { exact: true }).fill('20');
+  await expect(page.locator('.paper-balance dd')).toContainText('200.000');
+  await page.getByRole('button', { name: 'Hapus diskon', exact: true }).click();
+  await expect(page.locator('.paper-balance dd')).toContainText('250.000');
+  const downloadEvent = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Unduh PDF', exact: true }).first().click();
+  await (await downloadEvent).saveAs(test.info().outputPath('edited-document.pdf'));
 });

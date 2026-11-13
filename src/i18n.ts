@@ -1,7 +1,9 @@
 import type { Language } from './model';
 
 const id = {
-  subtitle: 'Isi di browser. Unduh langsung sebagai PDF.', editInvoice: 'Buat invoice',
+  subtitle: 'Edit langsung di dokumen. Selesai, unduh PDF.', editInvoice: 'Buat invoice',
+  editDocument: 'Dokumen invoice yang dapat diedit', clickToEdit: 'Klik teks untuk mengedit', documentSettings: 'Pengaturan dokumen', changeLogo: 'Ganti logo',
+  removeDiscount: 'Hapus diskon', removeShipping: 'Hapus biaya tambahan', removePaid: 'Hapus pembayaran sebagian',
   preview: 'Pratinjau', edit: 'Edit', downloadPdf: 'Unduh PDF', reset: 'Mulai ulang',
   resetTitle: 'Mulai invoice baru?', resetHint: 'Isi formulir saat ini akan dihapus. Unduh PDF terlebih dahulu jika masih diperlukan.', cancel: 'Batal',
   details: 'Detail invoice', number: 'Nomor invoice', title: 'Judul dokumen', issued: 'Tanggal terbit', due: 'Jatuh tempo',
@@ -29,7 +31,9 @@ const id = {
 };
 export type Messages = typeof id;
 const en: Messages = {
-  subtitle: 'Fill in your invoice. Download it straight to PDF.', editInvoice: 'Create an invoice',
+  subtitle: 'Edit directly on the document. Then download your PDF.', editInvoice: 'Create an invoice',
+  editDocument: 'Editable invoice document', clickToEdit: 'Click any field to edit', documentSettings: 'Document settings', changeLogo: 'Change logo',
+  removeDiscount: 'Remove discount', removeShipping: 'Remove additional charges', removePaid: 'Remove partial payment',
   preview: 'Preview', edit: 'Edit', downloadPdf: 'Download PDF', reset: 'Start over',
   resetTitle: 'Start a new invoice?', resetHint: 'This clears the current form. Download your PDF first if you still need it.', cancel: 'Cancel',
   details: 'Invoice details', number: 'Invoice number', title: 'Document title', issued: 'Issue date', due: 'Due date',

@@ -6,10 +6,10 @@ Isi invoice di browser, lalu langsung unduh PDF. Satu formulir sekali pakai, tan
 
 ## Cara pakai
 
-1. Isi pengirim, klien, nomor invoice, dan tanggal.
+1. Klik langsung nama, alamat, nomor invoice, atau tanggal pada lembar dokumen untuk mengedit.
 2. Tambahkan item, jumlah, satuan, dan harga. Duplikat atau urutkan item sesuai kebutuhan.
-3. Atur diskon, pajak, pembayaran sebagian, logo, atau catatan jika diperlukan.
-4. Periksa pratinjau dan klik **Unduh PDF**. Tidak perlu menyimpan draf terlebih dahulu.
+3. Tambahkan diskon, biaya tambahan, atau pembayaran sebagian dari ringkasan. Pajak, logo, dan catatan juga dapat diedit di dokumen yang sama.
+4. Klik **Unduh PDF**. Tidak perlu berpindah dari formulir ke pratinjau atau menyimpan draf.
 
 Nomor invoice bebas diedit. Karena tidak ada riwayat, aplikasi tidak mendeteksi nomor yang sudah dipakai pada sesi sebelumnya.
 
@@ -31,7 +31,7 @@ Data yang pernah disimpan oleh versi lama tidak dimuat atau dipakai oleh versi i
 - PDF A4 berupa teks, tabel banyak halaman, header berulang, nomor halaman, logo opsional, dan font yang dimuat saat unduh pertama.
 - Bahasa dokumen Indonesia/Inggris, terpisah dari bahasa UI.
 - Tema mengikuti dark/light sistem secara langsung; pilihan manual terang/gelap tersedia tanpa disimpan.
-- Layout editor/pratinjau berdampingan di desktop, tab Edit/Pratinjau di ponsel. Navigasi bagian, fokus keyboard, native dialog, dan reduced-motion.
+- Satu lembar dokumen yang dapat diedit langsung. Field berupa input/textarea native, dengan penanda hover/fokus. Harga terformat ketika tidak difokuskan dan menjadi angka mentah saat diedit; textarea tumbuh mengikuti isi. Ponsel menampilkan baris item sebagai kelompok berlabel agar tetap nyaman disentuh.
 - Logo PNG/JPG maksimal 2 MB, diproses lokal hingga 360 px dan maksimal 200 KB setelah diproses.
 
 Status draf/terkirim/lunas hanya label dokumen. Tidak ada pengiriman email otomatis. Status lunas menghitung seluruh total sebagai dibayar. Tarif pajak diisi pengguna. Font PDF Noto Sans mendukung Latin/Yunani/Kiril; aksara lain memerlukan font tambahan. Pratinjau dan PDF menggunakan data/hitungan yang sama, dengan mesin layout berbeda sehingga pembungkusan teks dapat berbeda.
@@ -58,4 +58,4 @@ Stack: React, TypeScript, Vite, CSS native, Phosphor Icons, Decimal.js, jsPDF, d
 
 Implementasi awal dibuat dari direktori kosong. README publik [gogo-invoice](https://github.com/hallucinogen/gogo-invoice) dan [Midday](https://github.com/midday-ai/midday) digunakan untuk memahami kebutuhan produk, tanpa menyalin source implementasi, CSS, screenshot, atau aset.
 
-Revisi saat ini mengikuti arahan pengguna: browser saja, tanpa penyimpanan, hasil langsung PDF, aksen biru, dan tema sistem. [Anti Slop](https://github.com/miqdadbadjuber/anti-slop) digunakan sebagai filter kualitas. Alasan desain tercatat di [DESIGN.md](DESIGN.md), hasil pemeriksaan di [QA.md](QA.md).
+Revisi saat ini mengikuti arahan pengguna: edit langsung di dokumen, browser saja, tanpa penyimpanan, hasil langsung PDF, aksen biru, dan tema sistem. UI publik [Gogo Invoice](https://hallucinogen.github.io/gogo-invoice/) diperiksa untuk pola interaksi, tanpa membaca source implementasinya atau menyalin aset. [Anti Slop](https://github.com/miqdadbadjuber/anti-slop) digunakan sebagai filter kualitas. Alasan desain tercatat di [DESIGN.md](DESIGN.md), hasil pemeriksaan di [QA.md](QA.md).
