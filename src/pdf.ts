@@ -59,12 +59,18 @@ export async function createPdf(invoice: Invoice) {
     columnStyles: { 0: { cellWidth: 87 }, 1: { cellWidth: 87 } },
   });
   const lastY = () => (doc as jsPDF & { lastAutoTable: { finalY: number } }).lastAutoTable.finalY;
+  const details = invoice.details.filter(detail => detail.value.trim());
+  if (details.length) autoTable(doc, {
+    startY: lastY() + 6, margin, theme: 'plain', styles, rowPageBreak: 'avoid',
+    body: details.map(detail => [detail.label[invoice.language], detail.value]),
+    columnStyles: { 0: { cellWidth: 52, textColor: [96, 105, 97] }, 1: { cellWidth: 122 } },
+  });
   autoTable(doc, {
     startY: lastY() + 12, margin, theme: 'plain', styles, rowPageBreak: 'avoid',
     head: [[t.description, t.quantity, t.rate, t.amount]],
     body: invoice.items.map((item, index) => [item.description, `${item.quantity}${item.unit ? ` ${item.unit}` : ''}`, money(item.rate || '0', invoice, true), money(sum.lines[index], invoice, true)]),
     headStyles: { fillColor: [244, 246, 244], textColor: [96, 105, 97], fontStyle: 'normal', fontSize: 8, halign: 'right' },
-    columnStyles: { 0: { cellWidth: 75, halign: 'left' }, 1: { cellWidth: 21, halign: 'right' }, 2: { cellWidth: 39, halign: 'right' }, 3: { cellWidth: 39, halign: 'right' } },
+    columnStyles: { 0: { cellWidth: 70, halign: 'left' }, 1: { cellWidth: 30, halign: 'right' }, 2: { cellWidth: 35, halign: 'right' }, 3: { cellWidth: 39, halign: 'right' } },
     didParseCell: cell => { if (cell.section === 'head' && cell.column.index === 0) cell.cell.styles.halign = 'left'; },
     willDrawCell: cell => { if (cell.section === 'body') { doc.setDrawColor(223, 227, 223); doc.setLineWidth(.15); doc.line(cell.cell.x, cell.cell.y + cell.cell.height, cell.cell.x + cell.cell.width, cell.cell.y + cell.cell.height); } },
   });

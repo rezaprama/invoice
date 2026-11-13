@@ -10,6 +10,7 @@ Design read: a single editable invoice document for freelancers and small busine
 - Layout: one centered paper document under a compact settings bar. Native text/date/decimal controls blend into the page, with clear hover/focus states. Phone items reflow into labeled groups, without a separate preview tab.
 - Identity: large editable title, two party columns, compact numbered item rows, and a firm rule above amount due. Whitespace separates identity, parties, items, and payment. No fabricated logos, customers, statistics, or testimonials.
 - Editing: monetary fields show formatted currency at rest and raw values on focus. Textareas resize with content. Item controls sit next to each row; optional discount/charges/payment rows are added and removed in the summary. PDF actions at top and bottom reduce backtracking.
+- Industry formats: grouped selector exposes 20 invoice structures, with bilingual project/room/engagement metadata and unpriced example rows. The supplied Kos Zania/Tangerang and Sriyani Suhartati identities are used only in their relevant formats. Switching formats preserves customized data by default; filled metadata carries into PDF.
 - State: visible session-only notice explains refresh behavior. Reset needs confirmation. Removed items support in-memory Undo. PDF errors allow retry without clearing the form.
 - Shapes: 6px controls, 8px editor, 12px dialogs, square paper. Shadows reserved for paper/dialog/toast elevation.
 - Icons: Phosphor icons represent actual controls; none are decorative content assets.

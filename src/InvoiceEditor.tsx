@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { ArrowDownIcon, ArrowUpIcon, CopyIcon, ImageIcon, PlusIcon, TrashIcon, XIcon } from '@phosphor-icons/react';
 import { InlineNumber, InlineText } from './InlineField';
-import { money, totals, type Invoice, type Item, type Party } from './model';
+import { money, totals, uid, type Invoice, type Item, type Language, type Party } from './model';
 import type { Messages } from './i18n';
 import { messages } from './i18n';
 
 type Props = {
-  invoice: Invoice; ui: Messages; update: (patch: Partial<Invoice>) => void;
+  invoice: Invoice; ui: Messages; uiLanguage: Language; update: (patch: Partial<Invoice>) => void;
   updateItem: (id: string, patch: Partial<Item>) => void; addItem: (after?: Item) => void;
   removeItem: (item: Item, index: number) => void; moveItem: (index: number, direction: number) => void;
   addTemplate: (kind: string) => void; chooseLogo: () => void;
@@ -20,7 +20,7 @@ function PartyEditor({ party, onChange, t, sender }: { party: Party; onChange: (
     <InlineText label={t.taxId} value={party.taxId} onChange={taxId => onChange({ taxId })} />
   </div>;
 }
-export function InvoiceEditor({ invoice, ui, update, updateItem, addItem, removeItem, moveItem, addTemplate, chooseLogo }: Props) {
+export function InvoiceEditor({ invoice, ui, uiLanguage, update, updateItem, addItem, removeItem, moveItem, addTemplate, chooseLogo }: Props) {
   const t = messages(invoice.language);
   const sum = totals(invoice);
   const [discountOpen, setDiscountOpen] = useState(!!invoice.discount);
@@ -44,6 +44,13 @@ export function InvoiceEditor({ invoice, ui, update, updateItem, addItem, remove
       <section id="section-02" aria-label={ui.sender}><h3>{t.sender}</h3><PartyEditor party={invoice.sender} t={ui} sender onChange={patch => update({ sender: { ...invoice.sender, ...patch } })} /></section>
       <section id="section-03" aria-label={ui.client}><h3>{t.billTo}</h3><PartyEditor party={invoice.client} t={ui} sender={false} onChange={patch => update({ client: { ...invoice.client, ...patch } })} /></section>
     </div>
+    <section className="document-details" aria-label={ui.detailTitle}>
+      {invoice.details.length > 0 && <div className="details-grid">{invoice.details.map((detail, index) => <div key={detail.key} className="document-detail" data-detail={detail.key}>
+        <div className="detail-heading"><InlineText label={`${ui.detailLabel} ${index + 1}`} value={detail.label[invoice.language]} maxLength={80} onChange={value => update({ details: invoice.details.map(field => field.key === detail.key ? { ...field, label: { ...field.label, [invoice.language]: value } } : field) })} className="detail-name" /><button type="button" className="icon-button" aria-label={`${ui.removeDetail} ${index + 1}`} onClick={() => update({ details: invoice.details.filter(field => field.key !== detail.key) })}><XIcon size={14} /></button></div>
+        <InlineText label={detail.label[uiLanguage] || ui.detailValue} value={detail.value} placeholder={ui.detailValue} onChange={value => update({ details: invoice.details.map(field => field.key === detail.key ? { ...field, value } : field) })} multiline />
+      </div>)}</div>}
+      <button type="button" className="text-button" disabled={invoice.details.length >= 24} onClick={() => update({ details: [...invoice.details, { key: uid(), label: { id: 'Detail tambahan', en: 'Additional detail' }, value: '' }] })}><PlusIcon size={13} />{ui.addDetail}</button>
+    </section>
     <section className="document-items" id="section-04" aria-label={ui.items}>
       <div className="items-heading" aria-hidden="true"><span>{t.description}</span><span>{t.quantity}</span><span>{t.rate}</span><span>{t.amount}</span></div>
       <div className="line-items">{invoice.items.map((item, index) => <div className="line-item" key={item.id} data-item={item.id}>

@@ -6,12 +6,29 @@ Isi invoice di browser, lalu langsung unduh PDF. Satu formulir sekali pakai, tan
 
 ## Cara pakai
 
-1. Klik langsung nama, alamat, nomor invoice, atau tanggal pada lembar dokumen untuk mengedit.
+1. Pilih **Format invoice** atau mulai dengan format bebas. Klik langsung nama, alamat, nomor invoice, atau tanggal pada lembar dokumen untuk mengedit.
 2. Tambahkan item, jumlah, satuan, dan harga. Duplikat atau urutkan item sesuai kebutuhan.
 3. Tambahkan diskon, biaya tambahan, atau pembayaran sebagian dari ringkasan. Pajak, logo, dan catatan juga dapat diedit di dokumen yang sama.
 4. Klik **Unduh PDF**. Tidak perlu berpindah dari formulir ke pratinjau atau menyimpan draf.
 
 Nomor invoice bebas diedit. Karena tidak ada riwayat, aplikasi tidak mendeteksi nomor yang sudah dipakai pada sesi sebelumnya.
+
+## 20 format bidang
+
+| Kelompok | Format |
+| --- | --- |
+| Konstruksi | Termin proyek; volume pekerjaan |
+| Teknik sipil | Konsultan teknik sipil; pengawasan proyek; survei & pemetaan |
+| Arsitektur & interior | Arsitek/perencanaan; desain interior; pengadaan & pemasangan interior |
+| Kos Zania Tangerang | Bulanan; masuk/deposit; tahunan |
+| Jasa hukum Sriyani Suhartati | Konsultasi; pendampingan; retainer |
+| Lainnya | Sewa properti; perawatan bangunan; perangkat lunak; desain kreatif; pelatihan; jasa profesional umum |
+
+Format berisi judul, contoh item tanpa harga, satuan, serta kolom informasi yang sesuai: proyek/termin/lokasi untuk konstruksi, kamar/periode untuk kos, atau referensi penugasan/periode untuk jasa hukum. Label dan isinya dapat diedit langsung. Kolom terisi ikut masuk PDF; kolom kosong tidak dicetak. **Tambah detail** memungkinkan penambahan kolom sendiri.
+
+Nama Kos Zania, kota Tangerang, dan Sriyani Suhartati berasal dari arahan pemilik proyek. Tidak ada nomor rekening, alamat lengkap, kredensial profesi, harga pasar, tarif pajak, atau syarat perjanjian yang dibuat otomatis. Angka meter pada format kos adalah informasi manual; jumlah kWh pada item diisi pengguna.
+
+Mengganti format pada invoice yang sudah berisi item menampilkan pilihan untuk mempertahankan atau mengganti item. Pilihan awal mempertahankan item dan harga. Identitas kustom, judul kustom, serta detail terisi tetap dipertahankan. Nama otomatis dari format personal dapat berubah ke nama format personal berikutnya selama belum diubah sendiri. Memilih **Format bebas** melepas pilihan format tanpa mengosongkan isi.
 
 ## Sesi tanpa penyimpanan
 

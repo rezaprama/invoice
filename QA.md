@@ -4,8 +4,10 @@ Current scope: direct editing on one invoice document, with blue accent, tempora
 
 ## Evidence
 
-- `npm run check`: PASS. Seven calculation/state tests, strict TypeScript, production build.
-- `npm run test:e2e`: PASS. Sixteen tests, eight scenarios on desktop and mobile projects.
+- `npm run check`: PASS. Twelve calculation/state/format tests, strict TypeScript, production build.
+- `npm run test:e2e`: PASS. Twenty-two tests, eleven scenarios on desktop and mobile projects.
+- Industry formats: PASS. All 20 bilingual formats selected through browser UI on both viewport projects. Tests verify unique IDs, independent items, blank prices/tax/payment data, correct units/details, personal identity defaults, and preservation of priced items/customized identities/filled metadata on format changes.
+- Personal PDFs: PASS. PDF Inspector classified Kos Zania and Sriyani exports as text documents; independent extraction found the supplied names, Tangerang, room A-01, billing period, expected 1,610,000 IDR test total, and legal engagement reference. These amounts are test inputs, not proposed prices.
 - Inline editing: PASS. Title edits preserve caret position; multiline item text expands without clipping; currency switches from raw to formatted on blur. Extracted PDF text contains the edited title, sender, client, final multiline text, and expected 250,000 IDR amount, with no replacement characters. Every browser test checks for unexpected page errors.
 - Storage rejection test: PASS. Existing legacy keys were seeded, then Storage API access and IndexedDB access were instrumented to throw. Editing, PDF download, theme selection, refresh, and new-tab workflows made zero storage calls. Refresh/new tabs began with empty sender/client/item fields; theme reset to system.
 - Direct PDF test: PASS. Invalid form shows validation; a blocked font request shows a recoverable PDF error; retry downloads an actual `%PDF-` file. No invoice-containing network requests or non-GET requests were observed during the tested export workflow.
@@ -13,7 +15,7 @@ Current scope: direct editing on one invoice document, with blue accent, tempora
 - Theme/layout/Axe: PASS. System dark/light changes, manual override, and manual light/dark views were exercised. Widths checked: 320, 375, 390, 768, 901, 1024, 1280, 1440, 1920 CSS pixels. Axe found no violations for tested WCAG A/AA tags; this is not full accessibility certification.
 - Other exercised controls: add/copy/move/delete/Undo; all item templates; invalid/valid logo and removal; currency; paid state; partial payment; tax and charges; fixed/percent discount; independent document/UI language; reset cancellation/confirmation; empty-item validation; keyboard input; add/remove adjustment rows.
 - `npm audit --omit=dev`: PASS, zero reported production dependency vulnerabilities at verification time.
-- Build sizes: application JS about 97 kB gzip, CSS about 4.6 kB gzip, plus separately loaded UI fonts. PDF code/fonts remain on demand. These are build sizes, not page latency or field performance measurements.
+- Build sizes: application JS about 101 kB gzip, CSS about 4.8 kB gzip, plus separately loaded UI fonts. PDF code/fonts remain on demand. These are build sizes, not page latency or field performance measurements.
 
 ## Block 1: Hard Gate
 
@@ -21,7 +23,7 @@ Current scope: direct editing on one invoice document, with blue accent, tempora
 - R-03 PASS: tested widths have no horizontal document overflow; mobile preview separately checked.
 - R-17 PASS: no invented usage/customer/performance statistics in UI.
 - R-18 PASS: no testimonials or portraits.
-- R-23 PASS: no invented image assets or business identities; optional logos come from user-selected local files.
+- R-23 PASS: no invented image assets; Kos Zania/Tangerang and Sriyani Suhartati come from explicit user direction. Optional logos come from user-selected local files.
 - R-24 PASS: skip-to-content anchor targets the main landmark; repository link is real. No decorative navigation links.
 - R-25 PASS: Axe contrast checks pass for tested light/dark editor and preview.
 - R-26 PASS: controls perform form edits, navigation, reset confirmation, or PDF output. No save/backup/history controls remain.
@@ -30,7 +32,7 @@ Current scope: direct editing on one invoice document, with blue accent, tempora
 - R-32 PASS: native input/textarea controls, visible focus, Escape-capable native dialogs, and tested keyboard editing/caret behavior.
 - R-33 PASS: source edited directly; no source-rewriting helpers.
 - R-34 PASS: system and manual light/dark modes tested. White paper intentionally previews PDF output.
-- R-35 PASS: production build plus sixteen recorded browser tests passed.
+- R-35 PASS: production build plus twenty-two recorded browser tests passed.
 - R-36 PASS: no fabricated security/compliance/customer claims; storage behavior measured with failing API hooks.
 - R-37 PASS: user direction explicitly supplies temporary workflow, blue, and system theme; interpretation recorded in DESIGN.md.
 - R-38 PASS: test identities stay in test contexts; sample item choices are explicitly labeled examples.

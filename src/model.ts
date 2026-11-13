@@ -3,6 +3,8 @@ import Decimal from 'decimal.js';
 Decimal.set({ precision: 40, rounding: Decimal.ROUND_HALF_UP });
 export const currencies = ['IDR', 'USD', 'EUR', 'GBP', 'SGD', 'AUD', 'MYR', 'JPY', 'CNY', 'HKD', 'CAD', 'CHF', 'INR', 'KRW', 'THB', 'PHP', 'VND', 'AED', 'SAR', 'NZD', 'BHD', 'KWD'] as const;
 export type Language = 'id' | 'en';
+export type Localized = Record<Language, string>;
+export type InvoiceDetail = { key: string; label: Localized; value: string };
 export type Party = { name: string; email: string; address: string; phone: string; taxId: string; logo: string };
 export type Item = { id: string; description: string; quantity: string; unit: string; rate: string };
 export type Invoice = {
@@ -10,7 +12,7 @@ export type Invoice = {
   currency: typeof currencies[number]; language: Language; status: 'draft' | 'sent' | 'paid';
   sender: Party; client: Party; items: Item[]; discountType: 'percent' | 'fixed';
   discount: string; taxLabel: string; tax: string; shipping: string; paid: string;
-  notes: string; terms: string; payment: string;
+  notes: string; terms: string; payment: string; formatId: string; details: InvoiceDetail[];
 };
 export const uid = () => crypto.randomUUID();
 export const emptyParty = (): Party => ({ name: '', email: '', address: '', phone: '', taxId: '', logo: '' });
@@ -22,7 +24,7 @@ export function createInvoice(language: Language = 'id'): Invoice {
     id: uid(), number: `INV-${new Date().getFullYear()}-001`, title: 'Invoice', issued: localDate(), due: localDate(due),
     currency: language === 'id' ? 'IDR' : 'USD', language, status: 'draft', sender: emptyParty(), client: emptyParty(),
     items: [emptyItem()], discountType: 'percent', discount: '', taxLabel: language === 'id' ? 'Pajak' : 'Tax',
-    tax: '', shipping: '', paid: '', notes: '', terms: '', payment: '',
+    tax: '', shipping: '', paid: '', notes: '', terms: '', payment: '', formatId: 'blank', details: [],
   };
 }
 export const decimal = (v: string) => new Decimal(v || '0');
