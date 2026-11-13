@@ -15,6 +15,7 @@ test('all 20 industry formats can be applied and edited on the document', async 
   for (const format of templates) {
     await choose(page, format.id);
     await expect(page.getByLabel('Judul dokumen', { exact: true })).toHaveValue(format.title.id);
+    expect(await page.getByLabel('Judul dokumen', { exact: true }).evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBeTruthy();
     await expect(page.locator('.line-item')).toHaveCount(format.items.length);
     for (const detail of format.fields) await expect(page.getByLabel(detail.label.id, { exact: true })).toHaveCount(1);
   }

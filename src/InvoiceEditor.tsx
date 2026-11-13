@@ -34,7 +34,7 @@ export function InvoiceEditor({ invoice, ui, uiLanguage, update, updateItem, add
       <span className="paper-currency">{invoice.currency} · A4</span>
     </div>
     <header className="paper-heading" id="section-01">
-      <div className="document-identity"><h2><InlineText label={ui.title} value={invoice.title} onChange={title => update({ title })} placeholder="Invoice" className="invoice-title" /></h2><InlineText label={ui.number} value={invoice.number} onChange={number => update({ number })} placeholder="INV-001" className="invoice-number" />{invoice.status !== 'draft' && <span className="paper-status">{t[invoice.status]}</span>}</div>
+      <div className="document-identity"><h2><InlineText label={ui.title} value={invoice.title} onChange={title => update({ title })} placeholder="Invoice" className="invoice-title" multiline maxLength={200} /></h2><InlineText label={ui.number} value={invoice.number} onChange={number => update({ number })} placeholder="INV-001" className="invoice-number" />{invoice.status !== 'draft' && <span className="paper-status">{t[invoice.status]}</span>}</div>
       <div className="paper-dates">
         <label><span>{t.issued}</span><input aria-label={ui.issued} type="date" className="inline-field" value={invoice.issued} autoComplete="off" onChange={e => { if (e.target.value.length === 10 && e.target.validity.valid) update({ issued: e.target.value }); }} /></label>
         <label><span>{t.due}</span><input aria-label={ui.due} type="date" className="inline-field" value={invoice.due} min={invoice.issued} autoComplete="off" onChange={e => { if (!e.target.value || (e.target.value.length === 10 && e.target.validity.valid)) update({ due: e.target.value }); }} /></label>
