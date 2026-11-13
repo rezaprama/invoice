@@ -1,17 +1,18 @@
 # Invoice Studio
 
-User brief: an independently built, fast invoice generator. Modern and minimal, with easy item editing and a complete workflow. Hosted at rezaprama.github.io/invoice. Indonesian by default.
+Current user direction: a clean-room browser invoice generator with immediate PDF output, no saved data, a blue accent, and system light/dark support. The experience is one temporary document, not an invoice-management dashboard.
 
-Design interpretation: a working document tool for freelancers and small businesses. The editor is the starting page. No marketing landing page, fictional customers, app logo, avatars, or invented performance claims.
+Design read: a focused, disposable invoice form for freelancers and small businesses. Fill, inspect, download. No sidebar, history, saved profiles, backup controls, account flow, or marketing page.
 
-- Palette: neutral paper, charcoal text, a single forest-green action accent. Red is reserved for errors and destructive actions. The invoice document remains white in dark mode because it represents the printed page.
-- Typography: self-hosted DM Sans, chosen for compact labels, distinct numerals, and clear business-document hierarchy. Tabular numerals for money. System fallback prevents blocked rendering.
-- Layout: narrow persistent navigation, roomy form, and a paper preview on a quiet desk. Mobile switches explicitly between editor and preview. The item list becomes labeled individual rows rather than a squeezed desktop table.
-- Identity: document-first composition, section numbers, compact squared controls, prominent invoice title and a firm horizontal rule above the amount due. Whitespace separates tasks instead of ornamental cards.
-- Radii: controls 6px, dialogs 12px, document 0px. Shadow only on paper and modal to establish actual elevation.
-- Icons: Phosphor, functional meaning only (add, copy, print, download, move, delete). No decorative illustrations.
-- Motion: short feedback transitions, no continuous animation. Respect reduced motion.
-- Dials: ENERGY 1 / RHYTHM 2 / MOTION 1. Design variance 4, motion intensity 1, visual density 5: this is a form and a document, not a landing page.
-- Content: functional Indonesian and English labels. Empty placeholders identify missing input; sample items are explicitly described as examples. Never invent sender/client identities.
+- Palette: cool neutral surfaces and charcoal ink, one restrained blue accent (`#2557c4` in light mode, `#9cbcff` in dark mode). Red is semantic error/destructive feedback. No green branding, gradients, glass, or decorative patterns.
+- Theme: follow system initially and react to system changes. Manual light/dark selection lasts only in current tab memory. Paper remains white to show the intended PDF output.
+- Typography: self-hosted DM Sans for legible labels and numerals. Money uses tabular figures. No decorative monospace or uppercase eyebrows.
+- Layout: slim brand/settings bar; editor and paper preview side by side. Phone/tablet switch explicitly between Edit and Preview. Controls stay readable and wrap instead of squeezing.
+- Identity: numbered form sections and a firm rule above amount due. Whitespace separates identity, parties, items, and payment. No fabricated logos, customers, statistics, or testimonials.
+- Navigation: section links jump directly to details, sender, client, items, and payment. PDF actions at the top and form bottom reduce backtracking.
+- State: visible session-only notice explains refresh behavior. Reset needs confirmation. Removed items support in-memory Undo. PDF errors allow retry without clearing the form.
+- Shapes: 6px controls, 8px editor, 12px dialogs, square paper. Shadows reserved for paper/dialog/toast elevation.
+- Icons: Phosphor icons represent actual controls; none are decorative content assets.
+- Motion: brief control feedback only, respecting reduced motion. Dials ENERGY 1 / RHYTHM 2 / MOTION 1.
 
-Reference policy: gogo-invoice and Midday public READMEs were consulted for product requirements only. No implementation files, styles, screenshots, or assets were copied. Anti Slop was consulted as a design-quality filter; no remote instructions or global skills were installed.
+Reference policy: public product READMEs informed requirements only. Implementation, layout, and styles are original. No reference implementation code or visual assets were copied. Anti Slop acts as a quality filter; no remote instructions were installed.

@@ -11,7 +11,7 @@ class ErrorBoundary extends React.Component<React.PropsWithChildren, { failed: b
   state = { failed: false };
   static getDerivedStateFromError() { return { failed: true }; }
   render() {
-    if (this.state.failed) return <main className="fatal"><h1>Invoice Studio</h1><p>Aplikasi tidak dapat ditampilkan. Data yang sudah tersimpan tetap ada di browser.</p><button onClick={() => location.reload()}>Muat ulang</button></main>;
+    if (this.state.failed) return <main className="fatal"><h1>Invoice Studio</h1><p>Aplikasi tidak dapat ditampilkan. Memuat ulang akan mengosongkan formulir.</p><button onClick={() => location.reload()}>Muat ulang</button></main>;
     return this.props.children;
   }
 }
